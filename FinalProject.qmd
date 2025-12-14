@@ -1,0 +1,43 @@
+---
+title: "FinalProject"
+format: pdf
+---
+
+##Exploratory Data Analysis
+The code below looks at some summary statistics on pitching stats for the last 25 years.
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+pitchingData <- read.csv("PitchingData.csv")
+```
+
+```{r}
+era_mean <- mean(pitchingData$ERA)
+era_median <- median(pitchingData$ERA)
+era_sd <- sd(pitchingData$ERA)
+```
+
+```{r}
+ggplot(data = pitchingData, aes(x=Year,y=ERA)) +
+  geom_line() +
+  labs(title="Pitching ERA Over Time",
+       x = "Year",
+       y= "ERA") +
+  theme_minimal()
+```
+
+##Summary Statistics Grouped by Pitcher Age
+```{r}
+summary_table <- pitchingData %>%
+  group_by(pitchingData$PAge) %>%
+  summarise(
+    mean_col = mean(pitchingData$ERA),
+    median_col = median(pitchingData$ERA),
+    sd_col = sd(pitchingData$ERA),
+    n_obs = n(),
+    .groups = "drop"
+  )
+print(summary_table)
+```
