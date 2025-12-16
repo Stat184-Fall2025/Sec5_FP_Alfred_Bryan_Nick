@@ -1,7 +1,6 @@
 # Project Title
 
-Write a 1-2 sentences that quickly and clearly convey what your repo is for.
-
+This repo is for Group 5's (Alfred, Nick, Bryan) course final project exploring how different factors affect pitching ERA within the MLB as well as how batting average has fluctuated throughout the different eras of the MLB.
 ## Overview
 
 Expand on those introductory sentences with a brief but informative description of your project's purpose and goals. This section should help visitors decide whether they should dig deeper into your repo/project.
@@ -24,5 +23,6 @@ Use this section to explain the structure of your repo. This should help visitor
 
 
 ## Authors
-
-Give information about who are the authors of the project and how people can get in touch if they have questions.
+Alfred Liljas: ahl5291@psu.edu
+Nick Finn: naf5446@psu.edu
+Bryan Dorneman: brd5397@psu.edu
