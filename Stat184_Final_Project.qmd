@@ -9,7 +9,10 @@ format: pdf
 ---
 
 ## Exploratory Data Analysis 
-The code below looks at some summary statistics on pitching stats for the last 25 years, from the 2001 to 2025 MLB seasons.
+
+The code below looks at some summary statistics on pitching stats for the last 25 years, from the 2001 to 2025 MLB seasons. Our main focuses was on how various factors have affected the Earned Run Average (ERA) over that time. The ERA measurement represents the amount of runs a pitcher would give up if they were to pitch a full 9 inning game and is one of the most important pitching statistics in baseball. We looked into strikeouts per 9 innings, innings pitched, number of pitchers, batting average on balls in play, and pitcher age. Our goal was to determine what affects each of these statistics may have on the overall league wide ERA trends during the time span, and how the game has changed in that span of time.
+NOTE: The 2020 season started in late July due to the COVID-19 pandemic and consisted of only 60 games per team, compared to the standard 162 game season.
+
 
 ```{r}
 library(ggplot2)
@@ -22,6 +25,10 @@ era_mean <- mean(pitchingData$ERA)
 era_median <- median(pitchingData$ERA)
 era_sd <- sd(pitchingData$ERA)
 ```
+
+## ERA Over Time
+
+ERA is the Earned Run Average and in this visual the league wide average for the ERA is tracked over time by year. From 2000 to 2009, the average ERA across the league fluctuated between 4.5 and 4.25, however after 2009, the average ERA began to plummet, dropping to 3.94 in 2011 and then dropping more in 2013 and 2014, reaching a low of 3.74 in 2014. Following those years, the average ERA rose back up and then has continued to fluctuate widely, settling around an average around 4.23 in the last 10 years.
 
 ```{r}
 ggplot(data = pitchingData, aes(x=Year,y=ERA)) +
@@ -45,7 +52,7 @@ ggplot(pitchingData, aes(x = Year, y = SO9)) +
 
 ## Comparison between ERA and Strikeouts per 9 Innings Over Time
 
-Looking at this comparison, we can see that one of the most relevant pitching statistics, strikeouts, has no direct impact on the ERA of pitchers, since both trend lines don't have any correlation
+Looking at this comparison, we can see that one of the most relevant pitching statistics, strikeouts, has no direct impact on the ERA of pitchers, since both trend lines don't have any correlation; while the average strike outs per 9 innings had increased from around 6.5 to 9.0 strikeouts (38% increase), the ERA did not follow any continuous trend and has fluctuated around an average of 4.25 runs.
 
 ```{r}
 library(tidyr)
@@ -67,7 +74,7 @@ ggplot(pitching_long, aes(x = Year, y = Value, color = Metric)) +
 
 ## Average Innings Pitched per Pitcher per Season
 
-Here we can see that over time, the average amount of innings pitched by a pitcher in a season has been sharply decreasing. Teams now focus more on pitcher health, since pitchers have started throwing much faster, resulting in more fatigue. Additionally, teams often have deeper bullpens with a lot of talent so they can rely more on backups. Note that the 2020 season started in late July due to the COVID-19 pandemic and consisted of only 60 games per team, compared to the standard 162 game season.
+Here we can see that over time, the average amount of innings pitched by a pitcher in a season has been sharply decreasing. Teams now focus more on pitcher health, since pitchers have started throwing much faster, resulting in more fatigue. Additionally, teams often have deeper bullpens with a lot of talent so they can rely more on backups. With more fresh pitchers entering games, one would assume a correlation to a lower ERA and while there is no distinct correlation in the visuals, both average innings pitched and average ERA have both decreased since the 2001 season.
 
 ```{r}
 pitchingData <- pitchingData %>%
@@ -83,7 +90,7 @@ ggplot(data = pitchingData, aes(x = Year, y = avg_IP_per_pitcher)) +
 
 ## Number of Pitchers used Per Season
 
-We can see that over time, the number of pitchers used by a team in a single season has increased by about 50% since 2000. Even though the active roster limit is 13 pitchers, they rotate a lot throughout the season which is what brings up the number. Note that the statistics for 2020 are also an outlier due to the pandemic.
+We can see that over time, the number of pitchers used by a team in a single season has increased by about 50% since 2000. Even though the active roster limit is 13 pitchers, they rotate a lot throughout the season which is what brings up the number. This further coincides with the statistic above considering the average amount of innings pitched through a season for a pitcher has decreased as more pitchers are being used in games.
 
 ```{r}
 pitchingData <- pitchingData %>%
@@ -128,5 +135,9 @@ ggplot(data = pitchingData) +
   ) +
   theme_light()
 ```
+
+## Concluding
+
+ERA is one of the most important pitching statistics in all of baseball, reflecting a pitcher's ability to prevent runs. While it is often used to measure individual performance, understanding what drives ERA across the league is more complex. Factors such as pitcher age, innings pitched, strikeout rates, batting averages, and the number of active pitchers all influence overall league trends. Over the past 25 years, ERA has generally declined, strikeouts have increased, pitchers are throwing fewer innings, and the performance gap between younger and older pitchers has grown. These patterns highlight how changes in player usage, strategy, and league trends have shaped pitching performance over time.
 
 
