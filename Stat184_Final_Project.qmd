@@ -5,7 +5,14 @@ author:
   - Alfred Liljas
   - Nick Finn
   - Bryan Dorneman
-format: pdf
+format:
+  pdf:
+    toc: true
+    number-sections: false
+execute: 
+  echo: false
+  warning: false
+engine: knitr
 ---
 
 ## Exploratory Data Analysis 
@@ -31,6 +38,14 @@ era_sd <- sd(pitchingData$ERA)
 ERA is the Earned Run Average and in this visual the league wide average for the ERA is tracked over time by year. From 2000 to 2009, the average ERA across the league fluctuated between 4.5 and 4.25, however after 2009, the average ERA began to plummet, dropping to 3.94 in 2011 and then dropping more in 2013 and 2014, reaching a low of 3.74 in 2014. Following those years, the average ERA rose back up and then has continued to fluctuate widely, settling around an average around 4.23 in the last 10 years.
 
 ```{r}
+#| label: fig-eraTime
+#| fig-cap: "Visual of Pitching ERA Over Time"
+#| fig-alt: "Line graph showing pitching ERA over time from 2001 to 2025, with ERA values ranging from 3.75 to 4.50."
+#| fig-pos: H
+#| lst-label: lst-figure1
+#| lst-cap: "Code Chunk for Making Visual"
+#| echo: false
+#| 
 ggplot(data = pitchingData, aes(x=Year,y=ERA)) +
   geom_line() +
   labs(title="Pitching ERA Over Time",
@@ -44,6 +59,14 @@ ggplot(data = pitchingData, aes(x=Year,y=ERA)) +
 We can see that the strikeouts per 9 innings has generally been increasing throughout time, with a slight dip happening between 2020 and the present. This means that batters are actively swinging at more balls, resulting in strikeouts.
 
 ```{r}
+#| label: fig-so9Time
+#| fig-cap: "Visual of Strikeouts per 9 Innings Over Time"
+#| fig-alt: "Line graph of MLB strikeouts per 9 innings from 2000 to 2025, showing a gradual increase with peaks above 9 in the early 2020s."
+#| fig-pos: H
+#| lst-label: lst-figure2
+#| lst-cap: "Code Chunk for Making Visual"
+#| echo: false
+#| 
 ggplot(pitchingData, aes(x = Year, y = SO9)) +
   geom_line() +
   labs(title = "MLB Strikeouts per 9 Innings Over Time",
@@ -63,10 +86,20 @@ pitching_long <- pitchingData %>%
   pivot_longer(cols = c(ERA, SO9),
                names_to = "Metric",
                values_to = "Value")
+```
 
+```{r}
+#| label: fig-eraso9Time
+#| fig-cap: "Visual of ERA and Strikeouts per 9 Innings Over Time"
+#| fig-alt: "Line graph showing ERA and SO9 over time, with ERA slightly declining and SO9 increasing from 2000 to 2025."
+#| fig-pos: H
+#| lst-label: lst-figure3
+#| lst-cap: "Code Chunk for Making Visual"
+#| echo: false
+#| 
 ggplot(pitching_long, aes(x = Year, y = Value, color = Metric)) +
   geom_line() +
-  labs(title = "ERA and Strikeouts per 9 Over Time",
+  labs(title = "ERA and Strikeouts per 9 Innings Over Time",
        x = "Year",
        y = "Value") +
   theme_minimal()
@@ -79,7 +112,17 @@ Here we can see that over time, the average amount of innings pitched by a pitch
 ```{r}
 pitchingData <- pitchingData %>%
   mutate(avg_IP_per_pitcher = IP / NumP)
+```
 
+```{r}
+#| label: fig-avgIPTime
+#| fig-cap: "Visual of Average Innings Pitched per Pitcher per Season"
+#| fig-alt: "Line graph of average innings pitched per pitcher per season from 2000 to 2025, showing an overall decline with a sharp drop around 2020."
+#| fig-pos: H
+#| lst-label: lst-figure4
+#| lst-cap: "Code Chunk for Making Visual"
+#| echo: false
+#| 
 ggplot(data = pitchingData, aes(x = Year, y = avg_IP_per_pitcher)) +
   geom_line() +
   labs(title = "Average Innings Pitched per Pitcher per Season",
@@ -95,7 +138,17 @@ We can see that over time, the number of pitchers used by a team in a single sea
 ```{r}
 pitchingData <- pitchingData %>%
   mutate(pitchers_per_team = NumP / Tms)
+```
 
+```{r}
+#| label: fig-avgNoPitchTime
+#| fig-cap: "Visual of Average Number of Pitchers Used per Team per Season"
+#| fig-alt: "Line graph showing the average number of pitchers used per team per season from 2000 to 2025, with an upward trend."
+#| fig-pos: H
+#| lst-label: lst-figure5
+#| lst-cap: "Code Chunk for Making Visual"
+#| echo: false
+#| 
 ggplot(data = pitchingData, aes(x = Year, y = pitchers_per_team)) +
   geom_line() +
   labs(title = "Average Number of Pitchers Used per Team per Season",
@@ -110,6 +163,14 @@ ggplot(data = pitchingData, aes(x = Year, y = pitchers_per_team)) +
 BABIP stands for Batting Average of Balls In Play and measures how often a batter gets a hit when they put the ball in play where the defense must field the ball or defend the play. One of the reasons it has decreased since early on is because of the steroid era. During the steroid era, players were stronger and faster, resulting in better contact, faster speed to reach base, and less time for the outfielders to react. Be aware that the dashed line represents the average BABIP over the 25 years, sitting just above 0.296.
 
 ```{r}
+#| label: fig-BABIPTime
+#| fig-cap: "Visual of League Average BABIP Over Time"
+#| fig-alt: "Line graph showing league average BABIP from 2000 to 2025 with a fluctuating solid line and horizontal dashed baseline."
+#| fig-pos: H
+#| lst-label: lst-figure6
+#| lst-cap: "Code Chunk for Making Visual"
+#| echo: false
+#| 
 ggplot(data = pitchingData, aes(x = Year, y = BAbip)) +
   geom_line() +
   geom_hline(yintercept = mean(pitchingData$BAbip),
@@ -125,6 +186,14 @@ ggplot(data = pitchingData, aes(x = Year, y = BAbip)) +
 This visual shows the relationship between the league average ERA and the average pitcher age in the league. Looking at the visual, it shows that relatively as the age of pitchers in the league increases, so does the league-wide average ERA, however it is not a linear trend. The range of the average ages of pitchers ranges only from 28.2 to 29.2 and the average ERA dips, rises, and slowly falls again. The relationship between the two is generally positive as the older the pitchers are, the more runs they tend to let in.
 
 ```{r}
+#| label: fig-eraAge
+#| fig-cap: "Visual of Average ERA vs Average Pitcher Age"
+#| fig-alt: "Line graph showing the trend of average ERA versus average pitcher age with a gray shaded confidence interval."
+#| fig-pos: H
+#| lst-label: lst-figure7
+#| lst-cap: "Code Chunk for Making Visual"
+#| echo: false
+#| 
 ggplot(data = pitchingData) +
   aes(x = PAge, y = ERA) +
   geom_smooth(se = TRUE, colour = "#112446") +
@@ -140,4 +209,6 @@ ggplot(data = pitchingData) +
 
 ERA is one of the most important pitching statistics in all of baseball, reflecting a pitcher's ability to prevent runs. While it is often used to measure individual performance, understanding what drives ERA across the league is more complex. Factors such as pitcher age, innings pitched, strikeout rates, batting averages, and the number of active pitchers all influence overall league trends. Over the past 25 years, ERA has generally declined, strikeouts have increased, pitchers are throwing fewer innings, and the performance gap between younger and older pitchers has grown. These patterns highlight how changes in player usage, strategy, and league trends have shaped pitching performance over time.
 
-
+## Code Appendix
+```{r codeAppend, ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
+```
