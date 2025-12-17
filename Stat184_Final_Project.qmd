@@ -8,7 +8,8 @@ author:
 format: pdf
 ---
 
-## Exploratory Data Analysis The code below looks at some summary statistics on pitching stats for the last 25 years, from the 2001 to 2025 MLB seasons.
+## Exploratory Data Analysis 
+The code below looks at some summary statistics on pitching stats for the last 25 years, from the 2001 to 2025 MLB seasons.
 
 ```{r}
 library(ggplot2)
@@ -112,18 +113,20 @@ ggplot(data = pitchingData, aes(x = Year, y = BAbip)) +
   theme_minimal()
 ```
 
-## Summary Statistics Grouped by Pitcher Age
+## Average ERA by Pitcher Age
+
+This visual shows the relationship between the league average ERA and the average pitcher age in the league. Looking at the visual, it shows that relatively as the age of pitchers in the league increases, so does the league-wide average ERA, however it is not a linear trend. The range of the average ages of pitchers ranges only from 28.2 to 29.2 and the average ERA dips, rises, and slowly falls again. The relationship between the two is generally positive as the older the pitchers are, the more runs they tend to let in.
 
 ```{r}
-summary_table <- pitchingData %>%
-  group_by(pitchingData$PAge) %>%
-  summarise(
-    mean_col = mean(pitchingData$ERA),
-    median_col = median(pitchingData$ERA),
-    sd_col = sd(pitchingData$ERA),
-    n_obs = n(),
-    .groups = "drop"
-  )
-print(summary_table)
+ggplot(data = pitchingData) +
+  aes(x = PAge, y = ERA) +
+  geom_smooth(se = TRUE, colour = "#112446") +
+  labs(
+    x = "Average Pitcher Age (PAge)",
+    y = "Average ERA",
+    title = "Average ERA vs Average Pitcher Age"
+  ) +
+  theme_light()
 ```
+
 
