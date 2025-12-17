@@ -1,0 +1,127 @@
+---
+title: "FinalProject"
+author:
+  - Alfred Liljas
+  - Nick Finn
+  - Bryan Dorneman
+format: pdf
+---
+
+## Exploratory Data Analysis The code below looks at some summary statistics on pitching stats for the last 25 years.
+
+```{r}
+library(ggplot2)
+library(dplyr)
+pitchingData <- read.csv("C:\\Users\\alfre\\Downloads\\PitchingData.csv")
+```
+
+```{r}
+era_mean <- mean(pitchingData$ERA)
+era_median <- median(pitchingData$ERA)
+era_sd <- sd(pitchingData$ERA)
+```
+
+```{r}
+ggplot(data = pitchingData, aes(x=Year,y=ERA)) +
+  geom_line() +
+  labs(title="Pitching ERA Over Time",
+       x = "Year",
+       y= "ERA") +
+  theme_minimal()
+```
+
+## Number of Strikeouts per 9 Innings Over Time
+
+We can see that the strikeouts per 9 innings has generally been increasing throughout time, with a slight dip happening between 2020 and the present. This means that batters are actively swinging at more balls, resulting in strikeouts.
+
+```{r}
+ggplot(pitchingData, aes(x = Year, y = SO9)) +
+  geom_line() +
+  labs(title = "MLB Strikeouts per 9 Innings Over Time",
+       y = "Strikeouts per 9 innings")
+```
+
+## Comparison between ERA and Strikeouts per 9 Innings Over Time
+
+Looking at this comparison, we can see that one of the most relevant pitching statistics, strikeouts, has no direct impact on the ERA of pitchers, since both trend lines don't have any correlation
+
+```{r}
+library(tidyr)
+library(dplyr)
+
+pitching_long <- pitchingData %>%
+  select(Year, ERA, SO9) %>%
+  pivot_longer(cols = c(ERA, SO9),
+               names_to = "Metric",
+               values_to = "Value")
+
+ggplot(pitching_long, aes(x = Year, y = Value, color = Metric)) +
+  geom_line() +
+  labs(title = "ERA and Strikeouts per 9 Over Time",
+       x = "Year",
+       y = "Value") +
+  theme_minimal()
+```
+
+## Average Innings Pitched per Pitcher per Season
+
+Here we can see that over time, the average amount of innings pitched by a pitcher in a season has been sharply decreasing. Teams now focus more on pitcher health, since pitchers have started throwing much faster, resulting in more fatigue. Additionally, teams often have deeper bullpens with a lot of talent so they can rely more on backups.
+
+```{r}
+pitchingData <- pitchingData %>%
+  mutate(avg_IP_per_pitcher = IP / NumP)
+
+ggplot(data = pitchingData, aes(x = Year, y = avg_IP_per_pitcher)) +
+  geom_line() +
+  labs(title = "Average Innings Pitched per Pitcher per Season",
+       x = "Year",
+       y = "Average Innings Pitched") +
+  theme_minimal()
+```
+
+## Number of Pitchers used Per Season
+
+We can see that over time, the number of pitchers used by a team in a single season has increased by about 50% since 2000. Even though the active roster limit is 13 pitchers, they rotate a lot throughout the season which is what brings up the number.
+
+```{r}
+pitchingData <- pitchingData %>%
+  mutate(pitchers_per_team = NumP / Tms)
+
+ggplot(data = pitchingData, aes(x = Year, y = pitchers_per_team)) +
+  geom_line() +
+  labs(title = "Average Number of Pitchers Used per Team per Season",
+       x = "Year",
+       y = "Pitchers per Team") +
+  theme_minimal()
+
+```
+
+## Trends of BABIP Over Time
+
+BABIP stands for Batting Average of Balls In Play. One of the reasons it has decreased since early on is because of the steroid era. During the steroid era, players were stronger and faster, resulting in better contact, faster speed to reach base, and less time for the outfielders to react.
+
+```{r}
+ggplot(data = pitchingData, aes(x = Year, y = BAbip)) +
+  geom_line() +
+  geom_hline(yintercept = mean(pitchingData$BAbip),
+             linetype = "dashed") +
+  labs(title = "League Average BABIP Over Time",
+       x = "Year",
+       y = "BABIP") +
+  theme_minimal()
+```
+
+## Summary Statistics Grouped by Pitcher Age
+
+```{r}
+summary_table <- pitchingData %>%
+  group_by(pitchingData$PAge) %>%
+  summarise(
+    mean_col = mean(pitchingData$ERA),
+    median_col = median(pitchingData$ERA),
+    sd_col = sd(pitchingData$ERA),
+    n_obs = n(),
+    .groups = "drop"
+  )
+print(summary_table)
+```
