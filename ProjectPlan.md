@@ -1,0 +1,12 @@
+# Project Plan
+1) Decide on Topic - MLB (COMPLETE)
+2) Choose Statistic(s) - Pitching Trends (COMPLETE)
+3) Find Database(s) (COMPLETE)
+4) Create GitHub Repository (COMPLETE) 
+5) Begin Statistical Analysis (COMPLETE)
+6) Work-In-Progress Presentation (COMPLETE)
+7) Select Most Insightful Data Trends Relative to ERA (COMPLETE)
+8) Finish Statistical Analysis (COMPLETE)
+9) Finish QMD Document (COMPLETE)
+10) Make Final Updates to GitHub Repository (COMPLETE)
+11) Submit Finished Project (COMPLETE)
