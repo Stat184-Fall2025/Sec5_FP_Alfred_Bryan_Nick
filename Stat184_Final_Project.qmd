@@ -1,5 +1,6 @@
 ---
-title: "FinalProject"
+title: "How Pitching Has Changed"
+subtitle: "A Statistical Analysis of MLB Pitching Evolution"
 author:
   - Alfred Liljas
   - Nick Finn
@@ -7,7 +8,7 @@ author:
 format: pdf
 ---
 
-## Exploratory Data Analysis The code below looks at some summary statistics on pitching stats for the last 25 years.
+## Exploratory Data Analysis The code below looks at some summary statistics on pitching stats for the last 25 years, from the 2001 to 2025 MLB seasons.
 
 ```{r}
 library(ggplot2)
@@ -65,7 +66,7 @@ ggplot(pitching_long, aes(x = Year, y = Value, color = Metric)) +
 
 ## Average Innings Pitched per Pitcher per Season
 
-Here we can see that over time, the average amount of innings pitched by a pitcher in a season has been sharply decreasing. Teams now focus more on pitcher health, since pitchers have started throwing much faster, resulting in more fatigue. Additionally, teams often have deeper bullpens with a lot of talent so they can rely more on backups.
+Here we can see that over time, the average amount of innings pitched by a pitcher in a season has been sharply decreasing. Teams now focus more on pitcher health, since pitchers have started throwing much faster, resulting in more fatigue. Additionally, teams often have deeper bullpens with a lot of talent so they can rely more on backups. Note that the 2020 season started in late July due to the COVID-19 pandemic and consisted of only 60 games per team, compared to the standard 162 game season.
 
 ```{r}
 pitchingData <- pitchingData %>%
@@ -81,7 +82,7 @@ ggplot(data = pitchingData, aes(x = Year, y = avg_IP_per_pitcher)) +
 
 ## Number of Pitchers used Per Season
 
-We can see that over time, the number of pitchers used by a team in a single season has increased by about 50% since 2000. Even though the active roster limit is 13 pitchers, they rotate a lot throughout the season which is what brings up the number.
+We can see that over time, the number of pitchers used by a team in a single season has increased by about 50% since 2000. Even though the active roster limit is 13 pitchers, they rotate a lot throughout the season which is what brings up the number. Note that the statistics for 2020 are also an outlier due to the pandemic.
 
 ```{r}
 pitchingData <- pitchingData %>%
@@ -98,7 +99,7 @@ ggplot(data = pitchingData, aes(x = Year, y = pitchers_per_team)) +
 
 ## Trends of BABIP Over Time
 
-BABIP stands for Batting Average of Balls In Play. One of the reasons it has decreased since early on is because of the steroid era. During the steroid era, players were stronger and faster, resulting in better contact, faster speed to reach base, and less time for the outfielders to react.
+BABIP stands for Batting Average of Balls In Play and measures how often a batter gets a hit when they put the ball in play where the defense must field the ball or defend the play. One of the reasons it has decreased since early on is because of the steroid era. During the steroid era, players were stronger and faster, resulting in better contact, faster speed to reach base, and less time for the outfielders to react. Be aware that the dashed line represents the average BABIP over the 25 years, sitting just above 0.296.
 
 ```{r}
 ggplot(data = pitchingData, aes(x = Year, y = BAbip)) +
@@ -125,3 +126,4 @@ summary_table <- pitchingData %>%
   )
 print(summary_table)
 ```
+
