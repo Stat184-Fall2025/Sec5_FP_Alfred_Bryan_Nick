@@ -1,0 +1,52 @@
+---
+title: "FinalProject"
+format: pdf
+---
+
+## Introduction
+In my code, I zoomed into pitcher's ERA overtime in the MLB and to see if age effected ERA.
+
+##Exploratory Data Analysis
+The code below looks at some summary statistics on pitching stats for the last 25 years.
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+pitchingData <- read.csv("PitchingData.csv")
+```
+
+```{r}
+era_mean <- mean(pitchingData$ERA)
+era_median <- median(pitchingData$ERA)
+era_sd <- sd(pitchingData$ERA)
+```
+
+```{r}
+ggplot(data = pitchingData, aes(x=Year,y=ERA)) +
+  geom_line() +
+  labs(title="Pitching ERA Over Time",
+       x = "Year",
+       y= "ERA") +
+  theme_minimal()
+```
+There was a significant decrease in ERA between 2010 and 2014, and in 2015 ERA began to spike again.
+
+##Summary Statistics Grouped by Pitcher Age
+```{r}
+summary_table <- pitchingData %>%
+  group_by(pitchingData$PAge) %>%
+  summarise(
+    mean_col = mean(pitchingData$ERA),
+    median_col = median(pitchingData$ERA),
+    sd_col = sd(pitchingData$ERA),
+    n_obs = n(),
+    .groups = "drop"
+  )
+print(summary_table)
+```
+Grouping by age, did not seem to show much difference for ERA metrics. Having more data would allow for further investigation into whether or not age has any impact on ERA.
+
+
+## Conclussion
+ERA varies over time, and we do not have enough information to see if the pitcher's age has an immediate impact on ERA. 
